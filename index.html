@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SORTICA - Sort. Solve. Sustain.</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Iconify Icons -->
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+
+    <!-- AOS (Animate On Scroll) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+    <!-- Custom Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            300: '#86efac',
+                            400: '#4ade80',
+                            500: '#10B981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b',
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 1s ease-in',
+                        'slide-up': 'slideUp 0.8s ease-out',
+                        'slide-down': 'slideDown 0.8s ease-out',
+                        'slide-left': 'slideLeft 0.8s ease-out',
+                        'slide-right': 'slideRight 0.8s ease-out',
+                        'bounce-slow': 'bounce 3s infinite',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(50px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        slideDown: {
+                            '0%': { transform: 'translateY(-50px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        slideLeft: {
+                            '0%': { transform: 'translateX(50px)', opacity: '0' },
+                            '100%': { transform: 'translateX(0)', opacity: '1' },
+                        },
+                        slideRight: {
+                            '0%': { transform: 'translateX(-50px)', opacity: '0' },
+                            '100%': { transform: 'translateX(0)', opacity: '1' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-white text-gray-900 font-sans antialiased">
+
+    <!-- Custom Smooth Cursor -->
+    <div class="cursor-dot" data-cursor-dot></div>
+    <div class="cursor-outline" data-cursor-outline></div>
+
+    <!-- Navbar - Minimalist Centered -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white/70 backdrop-blur-lg border-b border-gray-100">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo Left -->
+                <a href="#home" class="flex items-center space-x-2 group">
+                    <div class="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <span class="iconify text-white text-xl" data-icon="mdi:recycle"></span>
+                    </div>
+                    <span class="text-lg font-bold text-gray-900">SORTICA</span>
+                </a>
+
+                <!-- Centered Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-1 absolute left-1/2 transform -translate-x-1/2">
+                    <a href="#home" class="nav-link px-4 py-2 text-sm text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-all duration-300">Home</a>
+                    <a href="#about" class="nav-link px-4 py-2 text-sm text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-all duration-300">About</a>
+                    <a href="#data" class="nav-link px-4 py-2 text-sm text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-all duration-300">Data</a>
+                    <a href="#program" class="nav-link px-4 py-2 text-sm text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-all duration-300">Program</a>
+                </div>
+
+                <!-- Right CTA -->
+                <a href="#contact" class="hidden md:block px-5 py-2 bg-primary-600 text-white text-sm font-medium rounded-lg hover:bg-primary-700 transition-all duration-300">Contact</a>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-gray-700 focus:outline-none">
+                    <span class="iconify text-2xl" data-icon="mdi:menu"></span>
+                </button>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden py-4 border-t border-gray-100">
+                <div class="flex flex-col space-y-2">
+                    <a href="#home" class="text-gray-700 hover:text-primary-600 hover:bg-primary-50 px-4 py-2 rounded-lg transition-all duration-300">Home</a>
+                    <a href="#about" class="text-gray-700 hover:text-primary-600 hover:bg-primary-50 px-4 py-2 rounded-lg transition-all duration-300">About</a>
+                    <a href="#data" class="text-gray-700 hover:text-primary-600 hover:bg-primary-50 px-4 py-2 rounded-lg transition-all duration-300">Data</a>
+                    <a href="#program" class="text-gray-700 hover:text-primary-600 hover:bg-primary-50 px-4 py-2 rounded-lg transition-all duration-300">Program</a>
+                    <a href="#contact" class="bg-primary-600 text-white px-4 py-2 rounded-lg text-center hover:bg-primary-700 transition-all duration-300 mt-2">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-primary-50 via-white to-primary-100 pt-16">
+        <!-- Particles.js Background -->
+        <div id="particles-js" class="absolute inset-0 z-0"></div>
+
+        <!-- Animated Background Elements (Fallback/Additional) -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none z-0">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-primary-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-float"></div>
+            <div class="absolute bottom-20 right-10 w-96 h-96 bg-primary-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float" style="animation-delay: 1s;"></div>
+        </div>
+
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <!-- Left Content -->
+                <div class="text-center md:text-left space-y-6" data-aos="fade-right" data-aos-duration="1000">
+                    <div class="inline-block">
+                        <span class="bg-primary-100 text-primary-700 px-4 py-2 rounded-full text-sm font-semibold animate-pulse-slow">
+                            Smart Waste Management Solution
+                        </span>
+                    </div>
+
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
+                        Transformasi <span class="text-primary-600">Sampah</span> Dimulai Dari Sini
+                    </h1>
+
+                    <div class="space-y-2">
+                        <p class="text-xl md:text-2xl font-semibold text-primary-700" id="typing-text"></p>
+                        <p class="text-gray-600 text-lg leading-relaxed">
+                            Platform digital yang membantu masyarakat Rancabolang mengelola sampah dengan mudah melalui edukasi, pemilahan, dan pengelolaan berkelanjutan.
+                        </p>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pt-4">
+                        <a href="#about" class="group bg-primary-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-primary-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-2xl flex items-center justify-center space-x-2">
+                            <span>Pelajari Lebih Lanjut</span>
+                            <span class="iconify group-hover:translate-x-1 transition-transform duration-300" data-icon="mdi:arrow-right"></span>
+                        </a>
+                        <a href="#contact" class="bg-white text-primary-600 px-8 py-4 rounded-lg font-semibold border-2 border-primary-600 hover:bg-primary-50 transition-all duration-300 transform hover:scale-105 shadow-md">
+                            Hubungi Kami
+                        </a>
+                    </div>
+
+                    <!-- Quick Stats -->
+                    <div class="grid grid-cols-3 gap-4 pt-8">
+                        <div class="text-center">
+                            <div class="text-2xl md:text-3xl font-bold text-primary-600" data-count="1300">0</div>
+                            <div class="text-xs md:text-sm text-gray-600">Ton/Hari</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl md:text-3xl font-bold text-primary-600" data-count="300">0</div>
+                            <div class="text-xs md:text-sm text-gray-600">Ton Tidak Terangkut</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl md:text-3xl font-bold text-primary-600" data-count="12000">0</div>
+                            <div class="text-xs md:text-sm text-gray-600">Jiwa di Rancabolang</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Content - Ultra Minimalist -->
+                <div class="relative h-96 md:h-[500px]" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
+                    <!-- Simple Floating Cards -->
+                    <div class="relative h-full flex items-center justify-center">
+                        <!-- Card 1 - Top Right -->
+                        <div class="absolute top-8 right-4 md:right-12 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg px-5 py-4 animate-float">
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-primary-600 mb-1">1.300</div>
+                                <p class="text-xs text-gray-500">Ton/Hari</p>
+                            </div>
+                        </div>
+
+                        <!-- Card 2 - Middle Left -->
+                        <div class="absolute top-32 left-4 md:left-8 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg p-4 animate-float" style="animation-delay: 0.3s;">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <span class="iconify text-primary-600 text-xl" data-icon="mdi:recycle"></span>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-semibold text-gray-900">Kurangi</p>
+                                    <p class="text-xs text-gray-500">Reduce</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 3 - Bottom Right -->
+                        <div class="absolute bottom-8 right-8 md:right-16 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg p-4 animate-float" style="animation-delay: 0.6s;">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <span class="iconify text-primary-600 text-xl" data-icon="mdi:delete-variant"></span>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-semibold text-gray-900">Pisahkan</p>
+                                    <p class="text-xs text-gray-500">Separate</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 4 - Bottom Left -->
+                        <div class="absolute bottom-20 left-8 md:left-12 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg p-4 animate-float" style="animation-delay: 0.9s;">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <span class="iconify text-primary-600 text-xl" data-icon="mdi:leaf"></span>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-semibold text-gray-900">Manfaatkan</p>
+                                    <p class="text-xs text-gray-500">Reuse</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Minimal Center Element -->
+                        <div class="text-center">
+                            <div class="inline-flex p-6 rounded-full bg-gradient-to-br from-primary-100/50 to-primary-200/50 backdrop-blur-sm">
+                                <span class="iconify text-primary-600 text-6xl md:text-7xl" data-icon="mdi:earth"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <a href="#stats" class="flex flex-col items-center text-primary-600 hover:text-primary-700 transition-colors duration-300">
+                <span class="text-sm font-medium mb-2">Scroll Down</span>
+                <span class="iconify text-3xl" data-icon="mdi:chevron-down"></span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section id="stats" class="py-20 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up" data-aos-duration="800">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    Krisis Sampah <span class="text-primary-600">Kota Bandung</span>
+                </h2>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                    Data menunjukkan urgensi pengelolaan sampah yang lebih baik di Kota Bandung
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                <!-- Stat Card 1 -->
+                <div class="bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl p-8 text-white shadow-xl transform hover:scale-105 transition-all duration-300" data-aos="flip-left" data-aos-duration="800">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="iconify text-5xl opacity-50" data-icon="mdi:trophy"></span>
+                        <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                            <span class="text-2xl font-bold">#5</span>
+                        </div>
+                    </div>
+                    <div class="text-4xl font-bold mb-2">Peringkat 5</div>
+                    <div class="text-primary-100">Penghasil Sampah Dunia</div>
+                    <div class="mt-4 pt-4 border-t border-white/20 text-sm">
+                        Indonesia - Bank Dunia
+                    </div>
+                </div>
+
+                <!-- Stat Card 2 -->
+                <div class="bg-gradient-to-br from-red-500 to-red-700 rounded-2xl p-8 text-white shadow-xl transform hover:scale-105 transition-all duration-300" data-aos="flip-left" data-aos-duration="800" data-aos-delay="100">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="iconify text-5xl opacity-50" data-icon="mdi:delete-variant"></span>
+                    </div>
+                    <div class="text-4xl font-bold mb-2 counter" data-target="1300">0</div>
+                    <div class="text-red-100 font-semibold">Ton Sampah/Hari</div>
+                    <div class="mt-4 pt-4 border-t border-white/20 text-sm">
+                        Total produksi sampah Kota Bandung
+                    </div>
+                </div>
+
+                <!-- Stat Card 3 -->
+                <div class="bg-gradient-to-br from-orange-500 to-orange-700 rounded-2xl p-8 text-white shadow-xl transform hover:scale-105 transition-all duration-300" data-aos="flip-left" data-aos-duration="800" data-aos-delay="200">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="iconify text-5xl opacity-50" data-icon="mdi:alert-circle"></span>
+                    </div>
+                    <div class="text-4xl font-bold mb-2 counter" data-target="300">0</div>
+                    <div class="text-orange-100 font-semibold">Ton Tidak Terangkut</div>
+                    <div class="mt-4 pt-4 border-t border-white/20 text-sm">
+                        Sampah menumpuk setiap hari
+                    </div>
+                </div>
+
+                <!-- Stat Card 4 -->
+                <div class="bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl p-8 text-white shadow-xl transform hover:scale-105 transition-all duration-300" data-aos="flip-left" data-aos-duration="800" data-aos-delay="300">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="iconify text-5xl opacity-50" data-icon="mdi:account-group"></span>
+                    </div>
+                    <div class="text-4xl font-bold mb-2 counter" data-target="12000">0</div>
+                    <div class="text-blue-100 font-semibold">Jiwa di Rancabolang</div>
+                    <div class="mt-4 pt-4 border-t border-white/20 text-sm">
+                        Menghasilkan ~12 ton sampah/hari
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Info Bar -->
+            <div class="mt-12 bg-red-50 border-l-4 border-red-500 p-6 rounded-lg" data-aos="zoom-in" data-aos-duration="1000">
+                <div class="flex items-start space-x-4">
+                    <span class="iconify text-red-500 text-3xl flex-shrink-0" data-icon="mdi:fire-alert"></span>
+                    <div>
+                        <h3 class="text-lg font-bold text-red-900 mb-2">Krisis TPA Sarimukti</h3>
+                        <p class="text-red-800">
+                            Kebakaran TPA Sarimukti pada Agustus 2023 memuncakkan krisis sampah Kota Bandung.
+                            Dengan kapasitas angkut DLHK hanya 900 ton/hari, sekitar 300 ton sampah tidak terangkut setiap hari.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Left Content -->
+                <div data-aos="fade-up" data-aos-duration="1000">
+                    <div class="inline-block bg-primary-100 text-primary-700 px-4 py-2 rounded-full text-sm font-semibold mb-6">
+                        Tentang SORTICA
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                        Solusi Digital untuk <span class="text-primary-600">Permasalahan Sampah</span>
+                    </h2>
+                    <p class="text-gray-600 text-lg leading-relaxed mb-6">
+                        SORTICA hadir sebagai jawaban atas krisis sampah di Kelurahan Rancabolang, Kota Bandung.
+                        Kami mengembangkan platform digital yang memudahkan masyarakat dalam mengelola sampah sesuai
+                        program <strong>Kang PisMan</strong> (Kurangi - Pisahkan - Manfaatkan).
+                    </p>
+                    <p class="text-gray-600 text-lg leading-relaxed mb-8">
+                        Dengan teknologi dan edukasi, kami percaya setiap individu dapat berkontribusi menciptakan
+                        lingkungan yang lebih bersih dan berkelanjutan.
+                    </p>
+
+                    <!-- Mission Points -->
+                    <div class="space-y-4">
+                        <div class="flex items-start space-x-4 group">
+                            <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-primary-600 transition-colors duration-300">
+                                <span class="iconify text-primary-600 text-2xl group-hover:text-white transition-colors duration-300" data-icon="mdi:target"></span>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-900 mb-1">Misi Kami</h3>
+                                <p class="text-gray-600">Memberdayakan masyarakat untuk mengelola sampah dengan bijak melalui teknologi digital</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-4 group">
+                            <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-primary-600 transition-colors duration-300">
+                                <span class="iconify text-primary-600 text-2xl group-hover:text-white transition-colors duration-300" data-icon="mdi:lightbulb-on"></span>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-900 mb-1">Visi Kami</h3>
+                                <p class="text-gray-600">Mewujudkan Kota Bandung yang bersih dan bebas sampah menumpuk</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-4 group">
+                            <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-primary-600 transition-colors duration-300">
+                                <span class="iconify text-primary-600 text-2xl group-hover:text-white transition-colors duration-300" data-icon="mdi:handshake"></span>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-900 mb-1">Kolaborasi</h3>
+                                <p class="text-gray-600">Bekerja sama dengan pemerintah, swasta, dan masyarakat untuk solusi berkelanjutan</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Content - Image/Illustration -->
+                <div class="relative" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                    <div class="grid grid-cols-2 gap-4">
+                        <!-- Card 1 -->
+                        <div class="bg-white rounded-2xl p-6 shadow-lg transform hover:-translate-y-2 transition-all duration-300">
+                            <div class="w-16 h-16 bg-primary-100 rounded-xl flex items-center justify-center mb-4">
+                                <span class="iconify text-primary-600 text-4xl" data-icon="mdi:leaf"></span>
+                            </div>
+                            <h3 class="font-bold text-gray-900 mb-2">Ramah Lingkungan</h3>
+                            <p class="text-sm text-gray-600">Solusi berkelanjutan untuk masa depan</p>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div class="bg-white rounded-2xl p-6 shadow-lg transform hover:-translate-y-2 transition-all duration-300 mt-8">
+                            <div class="w-16 h-16 bg-primary-100 rounded-xl flex items-center justify-center mb-4">
+                                <span class="iconify text-primary-600 text-4xl" data-icon="mdi:cellphone"></span>
+                            </div>
+                            <h3 class="font-bold text-gray-900 mb-2">Digital & Mudah</h3>
+                            <p class="text-sm text-gray-600">Akses dari smartphone Anda</p>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="bg-white rounded-2xl p-6 shadow-lg transform hover:-translate-y-2 transition-all duration-300">
+                            <div class="w-16 h-16 bg-primary-100 rounded-xl flex items-center justify-center mb-4">
+                                <span class="iconify text-primary-600 text-4xl" data-icon="mdi:chart-line"></span>
+                            </div>
+                            <h3 class="font-bold text-gray-900 mb-2">Data Real-time</h3>
+                            <p class="text-sm text-gray-600">Monitor dampak Anda secara langsung</p>
+                        </div>
+
+                        <!-- Card 4 -->
+                        <div class="bg-white rounded-2xl p-6 shadow-lg transform hover:-translate-y-2 transition-all duration-300 mt-8">
+                            <div class="w-16 h-16 bg-primary-100 rounded-xl flex items-center justify-center mb-4">
+                                <span class="iconify text-primary-600 text-4xl" data-icon="mdi:account-group"></span>
+                            </div>
+                            <h3 class="font-bold text-gray-900 mb-2">Community</h3>
+                            <p class="text-sm text-gray-600">Bersama untuk perubahan</p>
+                        </div>
+                    </div>
+
+                    <!-- Floating Badge -->
+                    <div class="absolute -top-4 -right-4 bg-primary-600 text-white rounded-full w-24 h-24 flex items-center justify-center shadow-xl animate-pulse-slow">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold">2024</div>
+                            <div class="text-xs">Launched</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Visualization Section -->
+    <section id="data" class="py-20 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up" data-aos-duration="800">
+                <div class="inline-block bg-primary-100 text-primary-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+                    Data & Statistik
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    Komposisi <span class="text-primary-600">Sampah Bandung</span>
+                </h2>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                    Visualisasi data sampah Kota Bandung berdasarkan jenis dan volume harian
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-8 mb-12">
+                <!-- Chart 1 - Pie Chart -->
+                <div class="bg-white rounded-2xl shadow-xl p-8" data-aos="zoom-in" data-aos-duration="1000">
+                    <h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center">
+                        <span class="iconify text-primary-600 text-2xl mr-3" data-icon="mdi:chart-pie"></span>
+                        Komposisi Sampah Kota Bandung
+                    </h3>
+                    <div class="relative" style="height: 300px;">
+                        <canvas id="wasteCompositionChart"></canvas>
+                    </div>
+                    <div class="mt-6 text-center text-sm text-gray-600">
+                        Total: <span class="font-bold text-primary-600">1.300 ton/hari</span>
+                    </div>
+                </div>
+
+                <!-- Chart 2 - Bar Chart -->
+                <div class="bg-white rounded-2xl shadow-xl p-8" data-aos="zoom-in" data-aos-duration="1000" data-aos-delay="200">
+                    <h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center">
+                        <span class="iconify text-primary-600 text-2xl mr-3" data-icon="mdi:chart-bar"></span>
+                        Volume Sampah per Kategori
+                    </h3>
+                    <div class="relative" style="height: 300px;">
+                        <canvas id="wasteVolumeChart"></canvas>
+                    </div>
+                    <div class="mt-6 text-center text-sm text-gray-600">
+                        Data berdasarkan produksi harian Kota Bandung
+                    </div>
+                </div>
+            </div>
+
+            <!-- Waste Breakdown Cards -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 border-2 border-green-200 hover:shadow-lg transition-shadow duration-300" data-aos="fade-up" data-aos-duration="800">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="iconify text-green-600 text-3xl" data-icon="mdi:food-apple"></span>
+                        <span class="text-green-700 font-bold text-sm">55%</span>
+                    </div>
+                    <h4 class="font-bold text-gray-900 mb-2">Sisa Makanan</h4>
+                    <div class="text-2xl font-bold text-green-700 mb-1">716.51 ton</div>
+                    <div class="text-sm text-gray-600">per hari</div>
+                </div>
+
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 border-2 border-blue-200 hover:shadow-lg transition-shadow duration-300" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="iconify text-blue-600 text-3xl" data-icon="mdi:bottle-soda"></span>
+                        <span class="text-blue-700 font-bold text-sm">21%</span>
+                    </div>
+                    <h4 class="font-bold text-gray-900 mb-2">Plastik</h4>
+                    <div class="text-2xl font-bold text-blue-700 mb-1">268.83 ton</div>
+                    <div class="text-sm text-gray-600">per hari</div>
+                </div>
+
+                <div class="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl p-6 border-2 border-yellow-200 hover:shadow-lg transition-shadow duration-300" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="iconify text-yellow-600 text-3xl" data-icon="mdi:file-document"></span>
+                        <span class="text-yellow-700 font-bold text-sm">16%</span>
+                    </div>
+                    <h4 class="font-bold text-gray-900 mb-2">Kertas</h4>
+                    <div class="text-2xl font-bold text-yellow-700 mb-1">211.2 ton</div>
+                    <div class="text-sm text-gray-600">per hari</div>
+                </div>
+
+                <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-6 border-2 border-gray-200 hover:shadow-lg transition-shadow duration-300" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="iconify text-gray-600 text-3xl" data-icon="mdi:package-variant"></span>
+                        <span class="text-gray-700 font-bold text-sm">8%</span>
+                    </div>
+                    <h4 class="font-bold text-gray-900 mb-2">Lainnya</h4>
+                    <div class="text-2xl font-bold text-gray-700 mb-1">103.46 ton</div>
+                    <div class="text-sm text-gray-600">B3, kain, kayu, dll</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Program Kang PisMan Section -->
+    <section id="program" class="py-20 bg-gradient-to-br from-primary-50 to-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up" data-aos-duration="800">
+                <div class="inline-block bg-primary-100 text-primary-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+                    Program Kami
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    Program <span class="text-primary-600">Kang PisMan</span>
+                </h2>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                    Kurangi - Pisahkan - Manfaatkan: Tiga pilar pengelolaan sampah berkelanjutan
+                </p>
+            </div>
+
+            <!-- Three Pillars -->
+            <div class="grid md:grid-cols-3 gap-8 mb-16">
+                <!-- Pillar 1 - Kurangi -->
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden transform hover:scale-105 transition-all duration-300" data-aos="fade-up" data-aos-duration="1000">
+                    <div class="bg-gradient-to-br from-red-500 to-red-600 p-6 text-white">
+                        <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-4">
+                            <span class="iconify text-4xl" data-icon="mdi:minus-circle"></span>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2">KURANGI</h3>
+                        <p class="text-red-100">Reduce Waste Production</p>
+                    </div>
+                    <div class="p-6">
+                        <ul class="space-y-3">
+                            <li class="flex items-start space-x-3">
+                                <span class="iconify text-primary-600 text-xl flex-shrink-0 mt-1" data-icon="mdi:check-circle"></span>
+                                <span class="text-gray-700">Gunakan produk ramah lingkungan</span>
+                            </li>
+                            <li class="flex items-start space-x-3">
+                                <span class="iconify text-primary-600 text-xl flex-shrink-0 mt-1" data-icon="mdi:check-circle"></span>
+                                <span class="text-gray-700">Hindari penggunaan plastik sekali pakai</span>
+                            </li>
+                            <li class="flex items-start space-x-3">
+                                <span class="iconify text-primary-600 text-xl flex-shrink-0 mt-1" data-icon="mdi:check-circle"></span>
+                                <span class="text-gray-700">Bawa tas belanja sendiri</span>
+                            </li>
+                            <li class="flex items-start space-x-3">
+                                <span class="iconify text-primary-600 text-xl flex-shrink-0 mt-1" data-icon="mdi:check-circle"></span>
+                                <span class="text-gray-700">Kurangi food waste</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Pillar 2 - Pisahkan -->
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden transform hover:scale-105 transition-all duration-300" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="150">
+                    <div class="bg-gradient-to-br from-blue-500 to-blue-600 p-6 text-white">
+                        <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-4">
+                            <span class="iconify text-4xl" data-icon="mdi:table-split-cell"></span>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2">PISAHKAN</h3>
+                        <p class="text-blue-100">Separate Waste Types</p>
+                    </div>
+                    <div class="p-6">
+                        <ul class="space-y-3">
+                            <li class="flex items-start space-x-3">
+                                <span class="iconify text-primary-600 text-xl flex-shrink-0 mt-1" data-icon="mdi:check-circle"></span>
+                                <span class="text-gray-700">Pisahkan organik dan anorganik</span>
+                            </li>
+                            <li class="flex items-start space-x-3">
+                                <span class="iconify text-primary-600 text-xl flex-shrink-0 mt-1" data-icon="mdi:check-circle"></span>
+                                <span class="text-gray-700">Gunakan tong sampah terpilah</span>
+                            </li>
+                            <li class="flex items-start space-x-3">
+                                <span class="iconify text-primary-600 text-xl flex-shrink-0 mt-1" data-icon="mdi:check-circle"></span>
+                                <span class="text-gray-700">Identifikasi jenis sampah dengan benar</span>
+                            </li>
+                            <li class="flex items-start space-x-3">
+                                <span class="iconify text-primary-600 text-xl flex-shrink-0 mt-1" data-icon="mdi:check-circle"></span>
+                                <span class="text-gray-700">Bersihkan sebelum memilah</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Pillar 3 - Manfaatkan -->
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden transform hover:scale-105 transition-all duration-300" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
+                    <div class="bg-gradient-to-br from-green-500 to-green-600 p-6 text-white">
+                        <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-4">
+                            <span class="iconify text-4xl" data-icon="mdi:recycle"></span>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2">MANFAATKAN</h3>
+                        <p class="text-green-100">Utilize & Recycle</p>
+                    </div>
+                    <div class="p-6">
+                        <ul class="space-y-3">
+                            <li class="flex items-start space-x-3">
+                                <span class="iconify text-primary-600 text-xl flex-shrink-0 mt-1" data-icon="mdi:check-circle"></span>
+                                <span class="text-gray-700">Kompos untuk sampah organik</span>
+                            </li>
+                            <li class="flex items-start space-x-3">
+                                <span class="iconify text-primary-600 text-xl flex-shrink-0 mt-1" data-icon="mdi:check-circle"></span>
+                                <span class="text-gray-700">Daur ulang sampah anorganik</span>
+                            </li>
+                            <li class="flex items-start space-x-3">
+                                <span class="iconify text-primary-600 text-xl flex-shrink-0 mt-1" data-icon="mdi:check-circle"></span>
+                                <span class="text-gray-700">Bank sampah & sedekah sampah</span>
+                            </li>
+                            <li class="flex items-start space-x-3">
+                                <span class="iconify text-primary-600 text-xl flex-shrink-0 mt-1" data-icon="mdi:check-circle"></span>
+                                <span class="text-gray-700">Budidaya maggot BSF</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Implementation Features -->
+            <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12" data-aos="zoom-in" data-aos-duration="1000">
+                <h3 class="text-2xl font-bold text-gray-900 mb-8 text-center">Fitur SORTICA untuk Mendukung Kang PisMan</h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="flex items-start space-x-4 p-4 rounded-xl hover:bg-primary-50 transition-colors duration-300">
+                        <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <span class="iconify text-primary-600 text-2xl" data-icon="mdi:school"></span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900 mb-1">Edukasi Digital</h4>
+                            <p class="text-sm text-gray-600">Tutorial & panduan pemilahan sampah</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4 p-4 rounded-xl hover:bg-primary-50 transition-colors duration-300">
+                        <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <span class="iconify text-primary-600 text-2xl" data-icon="mdi:map-marker"></span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900 mb-1">Peta TPS Terdekat</h4>
+                            <p class="text-sm text-gray-600">Temukan lokasi pembuangan sampah</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4 p-4 rounded-xl hover:bg-primary-50 transition-colors duration-300">
+                        <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <span class="iconify text-primary-600 text-2xl" data-icon="mdi:calendar-clock"></span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900 mb-1">Jadwal Pengangkutan</h4>
+                            <p class="text-sm text-gray-600">Notifikasi jadwal pengambilan sampah</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4 p-4 rounded-xl hover:bg-primary-50 transition-colors duration-300">
+                        <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <span class="iconify text-primary-600 text-2xl" data-icon="mdi:bank"></span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900 mb-1">Bank Sampah Digital</h4>
+                            <p class="text-sm text-gray-600">Track & tukar sampah jadi nilai ekonomi</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4 p-4 rounded-xl hover:bg-primary-50 transition-colors duration-300">
+                        <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <span class="iconify text-primary-600 text-2xl" data-icon="mdi:trophy-award"></span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900 mb-1">Reward & Gamifikasi</h4>
+                            <p class="text-sm text-gray-600">Dapatkan poin dari aksi ramah lingkungan</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4 p-4 rounded-xl hover:bg-primary-50 transition-colors duration-300">
+                        <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <span class="iconify text-primary-600 text-2xl" data-icon="mdi:chart-timeline-variant"></span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900 mb-1">Monitoring Impact</h4>
+                            <p class="text-sm text-gray-600">Lihat dampak positif Anda untuk lingkungan</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact/CTA Section -->
+    <section id="contact" class="py-20 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Left - CTA Content -->
+                <div data-aos="fade-right" data-aos-duration="1000">
+                    <div class="inline-block bg-primary-100 text-primary-700 px-4 py-2 rounded-full text-sm font-semibold mb-6">
+                        Mari Bergabung
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                        Bersama Ciptakan <span class="text-primary-600">Bandung Lebih Bersih</span>
+                    </h2>
+                    <p class="text-gray-600 text-lg leading-relaxed mb-8">
+                        Setiap aksi kecil Anda membuat perbedaan besar. Mari bergabung dengan SORTICA
+                        dan menjadi bagian dari solusi permasalahan sampah di Kota Bandung.
+                    </p>
+
+                    <!-- Contact Info -->
+                    <div class="space-y-4 mb-8">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="iconify text-primary-600 text-xl" data-icon="mdi:map-marker"></span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900">Lokasi</h4>
+                                <p class="text-gray-600">Kelurahan Rancabolang, Kota Bandung</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="iconify text-primary-600 text-xl" data-icon="mdi:email"></span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900">Email</h4>
+                                <p class="text-gray-600">info@sortica.id</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="iconify text-primary-600 text-xl" data-icon="mdi:phone"></span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900">Telepon</h4>
+                                <p class="text-gray-600">+62 812-3456-7890</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Social Media -->
+                    <div>
+                        <h4 class="font-bold text-gray-900 mb-4">Ikuti Kami</h4>
+                        <div class="flex space-x-4">
+                            <a href="#" class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center hover:bg-primary-600 hover:text-white transition-all duration-300 transform hover:scale-110">
+                                <span class="iconify text-xl" data-icon="mdi:instagram"></span>
+                            </a>
+                            <a href="#" class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center hover:bg-primary-600 hover:text-white transition-all duration-300 transform hover:scale-110">
+                                <span class="iconify text-xl" data-icon="mdi:facebook"></span>
+                            </a>
+                            <a href="#" class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center hover:bg-primary-600 hover:text-white transition-all duration-300 transform hover:scale-110">
+                                <span class="iconify text-xl" data-icon="mdi:twitter"></span>
+                            </a>
+                            <a href="#" class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center hover:bg-primary-600 hover:text-white transition-all duration-300 transform hover:scale-110">
+                                <span class="iconify text-xl" data-icon="mdi:linkedin"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right - Contact Form -->
+                <div class="bg-gradient-to-br from-primary-50 to-white rounded-2xl shadow-xl p-8" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6">Hubungi Kami</h3>
+                    <form id="contactForm" class="space-y-4">
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-2">Nama Lengkap</label>
+                            <input type="text" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none transition-all duration-300" placeholder="Masukkan nama Anda" required>
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-2">Email</label>
+                            <input type="email" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none transition-all duration-300" placeholder="nama@email.com" required>
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-2">Nomor Telepon</label>
+                            <input type="tel" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none transition-all duration-300" placeholder="+62 812-xxxx-xxxx">
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-2">Pesan</label>
+                            <textarea rows="4" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none transition-all duration-300 resize-none" placeholder="Tulis pesan Anda..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full bg-primary-600 text-white py-4 rounded-lg font-semibold hover:bg-primary-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2">
+                            <span>Kirim Pesan</span>
+                            <span class="iconify" data-icon="mdi:send"></span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <!-- Brand -->
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-700 rounded-lg flex items-center justify-center">
+                            <span class="iconify text-white text-2xl" data-icon="mdi:recycle"></span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold">SORTICA</h3>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 mb-4">Sort. Solve. Sustain.</p>
+                    <p class="text-gray-400 text-sm">Platform digital untuk pengelolaan sampah berkelanjutan di Kota Bandung.</p>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-primary-400 transition-colors duration-300">Home</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-primary-400 transition-colors duration-300">About</a></li>
+                        <li><a href="#data" class="text-gray-400 hover:text-primary-400 transition-colors duration-300">Data</a></li>
+                        <li><a href="#program" class="text-gray-400 hover:text-primary-400 transition-colors duration-300">Program</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-primary-400 transition-colors duration-300">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Program -->
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Program Kang PisMan</h4>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li class="flex items-center space-x-2">
+                            <span class="iconify text-primary-500" data-icon="mdi:check"></span>
+                            <span>Kurangi Sampah</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <span class="iconify text-primary-500" data-icon="mdi:check"></span>
+                            <span>Pisahkan Sampah</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <span class="iconify text-primary-500" data-icon="mdi:check"></span>
+                            <span>Manfaatkan Sampah</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Newsletter</h4>
+                    <p class="text-gray-400 text-sm mb-4">Dapatkan update terbaru dari SORTICA</p>
+                    <form class="space-y-2">
+                        <input type="email" placeholder="Email Anda" class="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 text-white focus:border-primary-500 focus:ring-2 focus:ring-primary-500 outline-none transition-all duration-300">
+                        <button type="submit" class="w-full bg-primary-600 text-white py-2 rounded-lg font-semibold hover:bg-primary-700 transition-colors duration-300">
+                            Subscribe
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 text-sm mb-4 md:mb-0">
+                        &copy; 2024 SORTICA. All rights reserved.
+                    </p>
+                    <div class="flex space-x-6 text-sm text-gray-400">
+                        <a href="#" class="hover:text-primary-400 transition-colors duration-300">Privacy Policy</a>
+                        <a href="#" class="hover:text-primary-400 transition-colors duration-300">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTop" class="fixed bottom-8 right-8 w-12 h-12 bg-primary-600 text-white rounded-full shadow-lg hover:bg-primary-700 transition-all duration-300 transform hover:scale-110 opacity-0 invisible flex items-center justify-center z-40">
+        <span class="iconify text-2xl" data-icon="mdi:chevron-up"></span>
+    </button>
+
+    <!-- JavaScript -->
+    <script src="js/particles-config.js"></script>
+    <script src="js/cursor.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
