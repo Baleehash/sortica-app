@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SORTICA - Sort. Solve. Sustain.</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Iconify Icons -->
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+
+    <!-- AOS (Animate On Scroll) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+    <!-- Custom Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            300: '#86efac',
+                            400: '#4ade80',
+                            500: '#10B981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b',
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 1s ease-in',
+                        'slide-up': 'slideUp 0.8s ease-out',
+                        'slide-down': 'slideDown 0.8s ease-out',
+                        'slide-left': 'slideLeft 0.8s ease-out',
+                        'slide-right': 'slideRight 0.8s ease-out',
+                        'bounce-slow': 'bounce 3s infinite',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(50px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        slideDown: {
+                            '0%': { transform: 'translateY(-50px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        slideLeft: {
+                            '0%': { transform: 'translateX(50px)', opacity: '0' },
+                            '100%': { transform: 'translateX(0)', opacity: '1' },
+                        },
+                        slideRight: {
+                            '0%': { transform: 'translateX(-50px)', opacity: '0' },
+                            '100%': { transform: 'translateX(0)', opacity: '1' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Style dasar cursor */
+        [data-cursor-dot],
+        [data-cursor-outline] {
+            transition: transform 0.2s ease;
+        }
+
+        /* Efek ketika hover di card tim */
+        .cursor-card-hover [data-cursor-outline] {
+            transform: scale(1.8);
+            background-color: rgba(59, 130, 246, 0.1);
+            /* contoh warna biru lembut */
+        }
+
+        .cursor-card-hover [data-cursor-dot] {
+            transform: scale(0.8);
+            background-color: #3b82f6;
+            /* warna utama */
+        }
+    </style>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="bg-white text-gray-900 font-sans antialiased  pt-10 lg:pt-10">
+
+    <!-- Custom Smooth Cursor -->
+    <div class="cursor-dot" data-cursor-dot></div>
+    <div class="cursor-outline" data-cursor-outline></div>
+    <div id="particles-js"></div>
+
+    <!-- Navbar - Minimalist Centered -->
+    <nav id="navbar"
+        class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white/70 backdrop-blur-lg border-b border-gray-100">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo Left -->
+                <a href="#home" class="flex items-center space-x-2 group">
+                    <div
+                        class="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <span class="iconify text-white text-xl" data-icon="mdi:recycle"></span>
+                    </div>
+                    <span class="text-lg font-bold text-gray-900">SORTICA</span>
+                </a>
+
+                <!-- Centered Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-1 absolute left-1/2 transform -translate-x-1/2">
+                    <a href="index.html#home"
+                        class="nav-link px-4 py-2 text-sm text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-all duration-300">Home</a>
+                    <a href="index.html#about"
+                        class="nav-link px-4 py-2 text-sm text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-all duration-300">About</a>
+                    <a href="index.html#data"
+                        class="nav-link px-4 py-2 text-sm text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-all duration-300">Data</a>
+                    <a href="index.html#program"
+                        class="nav-link px-4 py-2 text-sm text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-all duration-300">Program</a>
+                </div>
+
+                <!-- Right CTA -->
+                <div class="flex gap-5">
+                    <a href="index.html#contact"
+                        class="hidden md:block px-5 py-2 bg-primary-600 text-white text-sm font-medium rounded-lg hover:bg-primary-700 transition-all duration-300">Contact</a>
+                    <a href="team.html"
+                        class="hidden md:block px-5 py-2 border border-primary-600 text-primary-600 text-sm font-medium rounded-lg hover:bg-primary-600 hover:text-white transition-all duration-300">
+                        Team
+                    </a>
+
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-gray-700 focus:outline-none">
+                    <span class="iconify text-2xl" data-icon="mdi:menu"></span>
+                </button>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden py-4 border-t border-gray-100">
+                <div class="flex flex-col space-y-2">
+                    <a href="index.html#home"
+                        class="text-gray-700 hover:text-primary-600 hover:bg-primary-50 px-4 py-2 rounded-lg transition-all duration-300">Home</a>
+                    <a href="index.html#about"
+                        class="text-gray-700 hover:text-primary-600 hover:bg-primary-50 px-4 py-2 rounded-lg transition-all duration-300">About</a>
+                    <a href="index.html#data"
+                        class="text-gray-700 hover:text-primary-600 hover:bg-primary-50 px-4 py-2 rounded-lg transition-all duration-300">Data</a>
+                    <a href="index.html#program"
+                        class="text-gray-700 hover:text-primary-600 hover:bg-primary-50 px-4 py-2 rounded-lg transition-all duration-300">Program</a>
+                    <a href="index.html#contact"
+                        class="bg-primary-600 text-white px-4 py-2 rounded-lg text-center hover:bg-primary-700 transition-all duration-300 mt-2">Contact</a>
+                    <a href="team.html"
+                        class="border border-primary-600 text-primary-600 px-4 py-2 rounded-lg text-center hover:bg-primary-600 hover:text-white transition-all duration-300 mt-2">
+                        Team
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="py-20 px-6 md:px-20 relative overflow-hidden bg-gradient-to-b from-emerald-50 to-white">
+        <h2 class="text-4xl font-bold text-center text-emerald-700 mb-14 tracking-tight" data-aos="fade-up"
+            data-aos-duration="1000">
+            Tim Pengembang <span class="text-emerald-500">SORTICA</span>
+        </h2>
+
+        <div class="grid md:grid-cols-3 gap-10">
+            <!-- CARD TEMPLATE -->
+            <!-- IQBAL -->
+            <div class="relative group bg-white/80 backdrop-blur-xl border border-emerald-100 rounded-2xl shadow-lg p-6 overflow-hidden hover:-translate-y-3 hover:shadow-emerald-200 hover:border-emerald-300 transition-all duration-500"
+                data-aos="fade-up" data-aos-delay="0">
+                <div
+                    class="absolute inset-0 bg-gradient-to-br from-emerald-100/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                </div>
+
+                <div class="flex flex-col items-center relative z-10">
+                    <img src="images/iqbal.png" alt="Iqbal"
+                        class="w-32 h-32 rounded-full border-4 border-emerald-500 mb-4 object-cover shadow-lg group-hover:scale-110 transition-transform duration-500" />
+                    <h3 class="text-xl font-semibold text-emerald-700">
+                        Iqbal Maulana
+                    </h3>
+                    <p class="text-gray-500 text-sm">Web Developer — NIM 224060030</p>
+                    <p class="mt-3 text-center text-gray-600 text-sm leading-relaxed">
+                        Membangun struktur utama SORTICA dan memastikan performa website
+                        tetap cepat, stabil, dan efisien.
+                    </p>
+
+                    <div class="flex justify-center mt-5 space-x-5 text-emerald-600 text-2xl">
+                        <a href="https://www.instagram.com/baleehash/" target="_blank"
+                            class="p-2 rounded-full hover:bg-emerald-100 hover:text-emerald-800 hover:scale-110 transition-all duration-300">
+                            <span class="iconify" data-icon="mdi:instagram"></span>
+                        </a>
+                        <a href="https://github.com/Baleehash" target="_blank"
+                            class="p-2 rounded-full hover:bg-emerald-100 hover:text-emerald-800 hover:scale-110 transition-all duration-300">
+                            <span class="iconify" data-icon="mdi:github"></span>
+                        </a>
+                        <a href="https://www.linkedin.com/in/iqbal-maulana-ab2991192/" target="_blank"
+                            class="p-2 rounded-full hover:bg-emerald-100 hover:text-emerald-800 hover:scale-110 transition-all duration-300">
+                            <span class="iconify" data-icon="mdi:linkedin"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ILHAN -->
+            <div class="relative group bg-white/80 backdrop-blur-xl border border-emerald-100 rounded-2xl shadow-lg p-6 overflow-hidden hover:-translate-y-3 hover:shadow-emerald-200 hover:border-emerald-300 transition-all duration-500"
+                data-aos="fade-up" data-aos-delay="150">
+                <div
+                    class="absolute inset-0 bg-gradient-to-br from-emerald-100/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                </div>
+
+                <div class="flex flex-col items-center relative z-10">
+                    <img src="images/ilhan.png" alt="Ilhan"
+                        class="w-32 h-32 rounded-full border-4 border-emerald-500 mb-4 object-cover shadow-lg group-hover:scale-110 transition-transform duration-500" />
+                    <h3 class="text-xl font-semibold text-emerald-700">
+                        Ilhan Haffiyan Juldan
+                    </h3>
+                    <p class="text-gray-500 text-sm">Web Developer — NIM 224060031</p>
+                    <p class="mt-3 text-center text-gray-600 text-sm leading-relaxed">
+                        Fokus pada tampilan antarmuka yang intuitif dan desain yang memberikan
+                        pengalaman pengguna maksimal.
+                    </p>
+
+                    <div class="flex justify-center mt-5 space-x-5 text-emerald-600 text-2xl">
+                        <a href="https://instagram.com/hanzuldan" target="_blank"
+                            class="p-2 rounded-full hover:bg-emerald-100 hover:text-emerald-800 hover:scale-110 transition-all duration-300">
+                            <span class="iconify" data-icon="mdi:instagram"></span>
+                        </a>
+                        <a href="https://github.com/ilhanhj" target="_blank"
+                            class="p-2 rounded-full hover:bg-emerald-100 hover:text-emerald-800 hover:scale-110 transition-all duration-300">
+                            <span class="iconify" data-icon="mdi:github"></span>
+                        </a>
+                        <a href="https://www.linkedin.com/in/ilhan-haffiyan-juldan-a34257312/" target="_blank"
+                            class="p-2 rounded-full hover:bg-emerald-100 hover:text-emerald-800 hover:scale-110 transition-all duration-300">
+                            <span class="iconify" data-icon="mdi:linkedin"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIDWAN -->
+            <div class="relative group bg-white/80 backdrop-blur-xl border border-emerald-100 rounded-2xl shadow-lg p-6 overflow-hidden hover:-translate-y-3 hover:shadow-emerald-200 hover:border-emerald-300 transition-all duration-500"
+                data-aos="fade-up" data-aos-delay="300">
+                <div
+                    class="absolute inset-0 bg-gradient-to-br from-emerald-100/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                </div>
+
+                <div class="flex flex-col items-center relative z-10">
+                    <img src="images/ridwan.png" alt="Ridwan"
+                        class="w-32 h-32 rounded-full border-4 border-emerald-500 mb-4 object-cover shadow-lg group-hover:scale-110 transition-transform duration-500" />
+                    <h3 class="text-xl font-semibold text-emerald-700">
+                        Ridwan Fadhillah
+                    </h3>
+                    <p class="text-gray-500 text-sm">Web Developer — NIM 224060019</p>
+                    <p class="mt-3 text-center text-gray-600 text-sm leading-relaxed">
+                        Mengintegrasikan animasi dan interaksi dinamis agar web terasa hidup
+                        dan engaging bagi pengguna.
+                    </p>
+
+                    <div class="flex justify-center mt-5 space-x-5 text-emerald-600 text-2xl">
+                        <a href="https://www.instagram.com/ridwan.__f/" target="_blank"
+                            class="p-2 rounded-full hover:bg-emerald-100 hover:text-emerald-800 hover:scale-110 transition-all duration-300">
+                            <span class="iconify" data-icon="mdi:instagram"></span>
+                        </a>
+                        <a href="https://github.com/RidwanFadillah" target="_blank"
+                            class="p-2 rounded-full hover:bg-emerald-100 hover:text-emerald-800 hover:scale-110 transition-all duration-300">
+                            <span class="iconify" data-icon="mdi:github"></span>
+                        </a>
+                        <a href="https://www.linkedin.com/in/ridwan-fadillah45/" target="_blank"
+                            class="p-2 rounded-full hover:bg-emerald-100 hover:text-emerald-800 hover:scale-110 transition-all duration-300">
+                            <span class="iconify" data-icon="mdi:linkedin"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tambahkan di bawah body atau sebelum </body> -->
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+
+
+
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <!-- Brand -->
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div
+                            class="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-700 rounded-lg flex items-center justify-center">
+                            <span class="iconify text-white text-2xl" data-icon="mdi:recycle"></span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold">SORTICA</h3>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 mb-4">Sort. Solve. Sustain.</p>
+                    <p class="text-gray-400 text-sm">Platform digital untuk pengelolaan sampah berkelanjutan di Kota
+                        Bandung.</p>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home"
+                                class="text-gray-400 hover:text-primary-400 transition-colors duration-300">Home</a>
+                        </li>
+                        <li><a href="#about"
+                                class="text-gray-400 hover:text-primary-400 transition-colors duration-300">About</a>
+                        </li>
+                        <li><a href="#data"
+                                class="text-gray-400 hover:text-primary-400 transition-colors duration-300">Data</a>
+                        </li>
+                        <li><a href="#program"
+                                class="text-gray-400 hover:text-primary-400 transition-colors duration-300">Program</a>
+                        </li>
+                        <li><a href="#contact"
+                                class="text-gray-400 hover:text-primary-400 transition-colors duration-300">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Program -->
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Program Kang PisMan</h4>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li class="flex items-center space-x-2">
+                            <span class="iconify text-primary-500" data-icon="mdi:check"></span>
+                            <span>Kurangi Sampah</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <span class="iconify text-primary-500" data-icon="mdi:check"></span>
+                            <span>Pisahkan Sampah</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <span class="iconify text-primary-500" data-icon="mdi:check"></span>
+                            <span>Manfaatkan Sampah</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Newsletter</h4>
+                    <p class="text-gray-400 text-sm mb-4">Dapatkan update terbaru dari SORTICA</p>
+                    <form class="space-y-2">
+                        <input type="email" placeholder="Email Anda"
+                            class="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 text-white focus:border-primary-500 focus:ring-2 focus:ring-primary-500 outline-none transition-all duration-300">
+                        <button type="submit"
+                            class="w-full bg-primary-600 text-white py-2 rounded-lg font-semibold hover:bg-primary-700 transition-colors duration-300">
+                            Subscribe
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 text-sm mb-4 md:mb-0">
+                        &copy; 2024 SORTICA. All rights reserved.
+                    </p>
+                    <div class="flex space-x-6 text-sm text-gray-400">
+                        <a href="#" class="hover:text-primary-400 transition-colors duration-300">Privacy Policy</a>
+                        <a href="#" class="hover:text-primary-400 transition-colors duration-300">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+        particlesJS("particles-js", {
+            particles: {
+                number: { value: 70 },
+                color: { value: "#10B981" },
+                shape: { type: "circle" },
+                opacity: { value: 0.2 },
+                size: { value: 3 },
+                line_linked: { enable: true, distance: 120, color: "#047857", opacity: 0.2, width: 1 },
+                move: { enable: true, speed: 1.5 }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: { onhover: { enable: true, mode: "grab" } },
+                modes: { grab: { distance: 150, line_linked: { opacity: 0.5 } } }
+            }
+        });
+    </script>
+    <script src="https://kit.fontawesome.com/a2d04fba70.js" crossorigin="anonymous"></script>
+    <!-- JavaScript -->
+    <script src="js/particles-config.js"></script>
+    <script src="js/cursor.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
